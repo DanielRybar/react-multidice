@@ -16,6 +16,13 @@ export const DiceContainer = ({dices, setDices}) => {
             {dices.map((item, index) => (<Dice key={index} index={index} dices={dices} setDices={setDices} />))}
         </div>
         <div>{sum}</div>
+        <button onClick={e => {
+            let newArr = [];
+            for(let i = 0; i < dices.length; i++) {
+                newArr.push(Math.round(Math.random() * 5 + 1));
+            }
+            setDices(newArr);
+        }}>Roll</button>
         </>
     );
 }
