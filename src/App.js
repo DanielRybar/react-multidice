@@ -1,23 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState, useEffect } from "react";
+import DiceContainer from "./components/DiceContainer";
+import DiceCount from "./components/DiceCount";
 
 function App() {
+  const [count, setCount] = useState(10);
+  const [dices, setDices] = useState([]);
+  useEffect(() => {
+    let arr = [];
+    for(let i = 0; i < count; i++) {
+      arr.push(Math.round(Math.random() * 5 + 1));
+    }
+    setDices(arr);
+  },[count]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <DiceCount value={count} setValue={setCount} />
+      <DiceContainer dices={dices} setDices={setDices} />
     </div>
   );
 }
