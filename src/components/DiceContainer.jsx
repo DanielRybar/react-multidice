@@ -1,7 +1,8 @@
+import { Button, Alert } from "reactstrap";
 import { useState, useEffect } from "react";
 import Dice from "./Dice";
 
-export const DiceContainer = ({dices, setDices, history, setHistory}) => {
+export const DiceContainer = ({dices, setDices, history, setHistory, count, setCount, randomColor}) => {
     const [sum, setSum] = useState(0);
     useEffect(() => {
         let s = 0;
@@ -12,33 +13,21 @@ export const DiceContainer = ({dices, setDices, history, setHistory}) => {
     }, [dices]);
     return (
         <>
+        <h2>Dices</h2>
         <div>
-            {dices.map((item, index) => (<Dice key={index} index={index} dices={dices} setDices={setDices} />))}
+            {dices.map((item, index) => (<Dice key={index} index={index} dices={dices} setDices={setDices} randomColor={randomColor} />))}
         </div>
-        <div>{sum}</div>
-        <button onClick={e => {
+        <Alert color="danger">Sum of dices: {sum}</Alert>
+        <Button onClick={e => {
             let newArr = [];
             for(let i = 0; i < dices.length; i++) {
                 newArr.push(Math.round(Math.random() * 5 + 1));
             }
             setDices(newArr);
-        }}>Roll</button>
+        }} color="primary">Roll</Button>
+        <Button onClick={e => {setCount(0);}} disabled={count === 0  || sum === 0} color="danger">Set count to 0</Button>
         <br></br>
-        <button 
-            onClick={e => {
-                let arr = JSON.parse(JSON.stringify(history));
-                if(arr[0][0][0].length === 0)
-                {
-                    arr.shift();
-                    arr.shift();
-                }
-                arr.pop();
-                setHistory(arr);
-            }}
-            disabled={!history[history.length - 1] || history.length === 0 ? true : false}>History back</button>
-        <button onClick={e => {
-            setHistory([]);
-        }}>Clear history</button>
+        <Button onClick={e => {setHistory([]);}} disabled={history.length === 0}>Clear history</Button>
         </>
     );
 }
